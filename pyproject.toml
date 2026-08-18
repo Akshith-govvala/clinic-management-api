@@ -1,0 +1,56 @@
+[project]
+name = "clinic-management-api"
+version = "0.1.0"
+description = "Hospital Appointment Management API using FastAPI"
+authors = [
+    { name = "Developer", email = "dev@example.com" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "fastapi>=0.141.1,<0.142.0",
+    "uvicorn>=0.52.2,<0.53.0",
+    "sqlalchemy>=2.0.52,<3.0.0",
+    "alembic>=1.19.1,<2.0.0",
+    "pydantic>=2.13.4,<3.0.0",
+    "email-validator>=2.3.0,<3.0.0",
+    "python-dotenv>=1.0.0,<2.0.0"
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=9.1.1,<10.0.0",
+    "pytest-cov>=7.1.0,<8.0.0",
+    "ruff>=0.16.2,<0.17.0",
+    "bandit>=1.9.4,<2.0.0",
+    "httpx>=0.28.1,<0.29.0"
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["clinic_api"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "--cov=src/clinic_api --cov-report=html --cov-report=term-missing --cov-fail-under=85"
+
+[tool.coverage.run]
+source = ["src/clinic_api"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+ignore = ["B008"]
