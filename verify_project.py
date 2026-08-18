@@ -2,7 +2,6 @@
 """Quick test to verify project setup."""
 
 import sys
-import os
 from pathlib import Path
 
 # Add src to path
@@ -10,11 +9,11 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 # Test imports
 try:
-    from clinic_api.main import app
-    from clinic_api.models.patient import Patient
-    from clinic_api.models.doctor import Doctor
-    from clinic_api.models.appointment import Appointment
     from clinic_api.database import Base, engine
+    from clinic_api.main import app
+    from clinic_api.models.appointment import Appointment
+    from clinic_api.models.doctor import Doctor
+    from clinic_api.models.patient import Patient
     print("✓ All imports successful")
 except ImportError as e:
     print(f"✗ Import error: {e}")
@@ -66,6 +65,7 @@ print("\nNow running full test suite...")
 
 # Run pytest
 import subprocess
+
 result = subprocess.run(
     [sys.executable, "-m", "pytest", "tests/", "-v", "--cov=src/clinic_api", "--cov-fail-under=85"],
     cwd=str(Path(__file__).parent)

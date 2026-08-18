@@ -1,6 +1,6 @@
 """Simple test to verify conftest database setup."""
 
-from tests.conftest import client, test_engine, Base
+from tests.conftest import Base, test_engine
 
 
 def test_database_setup():

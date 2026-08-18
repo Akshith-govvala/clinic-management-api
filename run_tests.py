@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Run tests with coverage."""
 
-import sys
 import subprocess
+import sys
 
 result = subprocess.run(
     [

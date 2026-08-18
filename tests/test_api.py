@@ -1,7 +1,6 @@
 """Comprehensive test suite for Clinic Management API."""
 
-import pytest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from .conftest import client
 
@@ -199,7 +198,7 @@ class TestAppointmentAPI:
         """Test successfully creating an appointment."""
         patient_id, doctor_id = self.get_test_data()
         
-        start_time = datetime.now() + timedelta(days=1)
+        start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
         response = client.post(
@@ -220,7 +219,7 @@ class TestAppointmentAPI:
 
     def test_create_appointment_invalid_time_range(self):
         """Test creating appointment with end time before start time."""
-        start_time = datetime.now() + timedelta(days=1)
+        start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time - timedelta(hours=1)
 
         response = client.post(
@@ -238,7 +237,7 @@ class TestAppointmentAPI:
 
     def test_create_appointment_same_start_end_time(self):
         """Test creating appointment with same start and end time."""
-        start_time = datetime.now() + timedelta(days=1)
+        start_time = datetime.now(timezone.utc) + timedelta(days=1)
 
         response = client.post(
             "/appointments",
@@ -254,7 +253,7 @@ class TestAppointmentAPI:
 
     def test_create_appointment_patient_not_found(self):
         """Test creating appointment with non-existent patient."""
-        start_time = datetime.now() + timedelta(days=1)
+        start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
         response = client.post(
@@ -272,7 +271,7 @@ class TestAppointmentAPI:
 
     def test_create_appointment_doctor_not_found(self):
         """Test creating appointment with non-existent doctor."""
-        start_time = datetime.now() + timedelta(days=1)
+        start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
         response = client.post(
@@ -291,7 +290,7 @@ class TestAppointmentAPI:
     def test_get_all_appointments(self):
         """Test retrieving all appointments."""
         # Create an appointment
-        start_time = datetime.now() + timedelta(days=1)
+        start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
         client.post(
@@ -321,7 +320,7 @@ class TestAppointmentAPI:
     def test_get_appointment_by_id(self):
         """Test retrieving an appointment by ID."""
         # Create an appointment
-        start_time = datetime.now() + timedelta(days=1)
+        start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
         create_response = client.post(
@@ -350,7 +349,7 @@ class TestAppointmentAPI:
 
     def test_overlapping_appointment_full_overlap(self):
         """Test preventing overlapping appointment (complete overlap)."""
-        start_time = datetime.now() + timedelta(days=1)
+        start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
         # Create first appointment
@@ -380,7 +379,7 @@ class TestAppointmentAPI:
 
     def test_overlapping_appointment_partial_overlap(self):
         """Test preventing partially overlapping appointment."""
-        start_time = datetime.now() + timedelta(days=1)
+        start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
         # Create first appointment: 10:00 - 11:00
@@ -413,7 +412,7 @@ class TestAppointmentAPI:
 
     def test_adjacent_appointment_allowed(self):
         """Test that adjacent appointments are allowed."""
-        start_time = datetime.now() + timedelta(days=1)
+        start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
         # Create first appointment: 10:00 - 11:00
@@ -455,7 +454,7 @@ class TestAppointmentAPI:
         )
         doctor_id_2 = doctor_response.json()["id"]
 
-        start_time = datetime.now() + timedelta(days=1)
+        start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
         # Create appointment with first doctor
