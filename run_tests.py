@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Run tests with coverage."""
-
+#ruff: noqa
 import subprocess
 import sys
 
@@ -13,9 +13,9 @@ result = subprocess.run(
         "--cov=src/clinic_api",
         "--cov-report=term-missing",
         "--cov-report=html",
-        "-v"
+        "-v",
     ],
-    cwd="c:\\Users\\Admin\\clinic-management-api"
+    cwd="c:\\Users\\Admin\\clinic-management-api",
 )
 
 sys.exit(result.returncode)

@@ -1,5 +1,5 @@
 """Comprehensive test suite for Clinic Management API."""
-
+#ruff: noqa
 from datetime import datetime, timedelta, timezone
 
 from .conftest import client
@@ -218,15 +218,15 @@ class TestAppointmentAPI:
         assert "id" in data
 
     def test_create_appointment_invalid_time_range(self):
-        """Test creating appointment with end time before start time."""
+        patient_id, doctor_id = self.get_test_data()
         start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time - timedelta(hours=1)
 
         response = client.post(
             "/appointments",
             json={
-                "patient_id": self.patient_id,
-                "doctor_id": self.doctor_id,
+                "patient_id": patient_id,
+                "doctor_id": doctor_id,
                 "appointment_start": start_time.isoformat(),
                 "appointment_end": end_time.isoformat()
             }
@@ -237,13 +237,14 @@ class TestAppointmentAPI:
 
     def test_create_appointment_same_start_end_time(self):
         """Test creating appointment with same start and end time."""
+        patient_id, doctor_id = self.get_test_data()
         start_time = datetime.now(timezone.utc) + timedelta(days=1)
 
         response = client.post(
             "/appointments",
             json={
-                "patient_id": self.patient_id,
-                "doctor_id": self.doctor_id,
+                "patient_id": patient_id,
+                "doctor_id": doctor_id,
                 "appointment_start": start_time.isoformat(),
                 "appointment_end": start_time.isoformat()
             }
@@ -253,6 +254,7 @@ class TestAppointmentAPI:
 
     def test_create_appointment_patient_not_found(self):
         """Test creating appointment with non-existent patient."""
+        _, doctor_id = self.get_test_data()
         start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
@@ -260,7 +262,7 @@ class TestAppointmentAPI:
             "/appointments",
             json={
                 "patient_id": 9999,
-                "doctor_id": self.doctor_id,
+                "doctor_id": doctor_id,
                 "appointment_start": start_time.isoformat(),
                 "appointment_end": end_time.isoformat()
             }
@@ -271,13 +273,14 @@ class TestAppointmentAPI:
 
     def test_create_appointment_doctor_not_found(self):
         """Test creating appointment with non-existent doctor."""
+        patient_id, _ = self.get_test_data()
         start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
         response = client.post(
             "/appointments",
             json={
-                "patient_id": self.patient_id,
+                "patient_id": patient_id,
                 "doctor_id": 9999,
                 "appointment_start": start_time.isoformat(),
                 "appointment_end": end_time.isoformat()
@@ -289,6 +292,7 @@ class TestAppointmentAPI:
 
     def test_get_all_appointments(self):
         """Test retrieving all appointments."""
+        patient_id, doctor_id = self.get_test_data()
         # Create an appointment
         start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
@@ -296,8 +300,8 @@ class TestAppointmentAPI:
         client.post(
             "/appointments",
             json={
-                "patient_id": self.patient_id,
-                "doctor_id": self.doctor_id,
+                "patient_id": patient_id,
+                "doctor_id": doctor_id,
                 "appointment_start": start_time.isoformat(),
                 "appointment_end": end_time.isoformat()
             }
@@ -319,6 +323,7 @@ class TestAppointmentAPI:
 
     def test_get_appointment_by_id(self):
         """Test retrieving an appointment by ID."""
+        patient_id, doctor_id = self.get_test_data()
         # Create an appointment
         start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
@@ -326,8 +331,8 @@ class TestAppointmentAPI:
         create_response = client.post(
             "/appointments",
             json={
-                "patient_id": self.patient_id,
-                "doctor_id": self.doctor_id,
+                "patient_id": patient_id,
+                "doctor_id": doctor_id,
                 "appointment_start": start_time.isoformat(),
                 "appointment_end": end_time.isoformat()
             }
@@ -349,6 +354,7 @@ class TestAppointmentAPI:
 
     def test_overlapping_appointment_full_overlap(self):
         """Test preventing overlapping appointment (complete overlap)."""
+        patient_id, doctor_id = self.get_test_data()
         start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
@@ -356,8 +362,8 @@ class TestAppointmentAPI:
         client.post(
             "/appointments",
             json={
-                "patient_id": self.patient_id,
-                "doctor_id": self.doctor_id,
+                "patient_id": patient_id,
+                "doctor_id": doctor_id,
                 "appointment_start": start_time.isoformat(),
                 "appointment_end": end_time.isoformat()
             }
@@ -367,8 +373,8 @@ class TestAppointmentAPI:
         response = client.post(
             "/appointments",
             json={
-                "patient_id": self.patient_id,
-                "doctor_id": self.doctor_id,
+                "patient_id": patient_id,
+                "doctor_id": doctor_id,
                 "appointment_start": start_time.isoformat(),
                 "appointment_end": end_time.isoformat()
             }
@@ -379,6 +385,7 @@ class TestAppointmentAPI:
 
     def test_overlapping_appointment_partial_overlap(self):
         """Test preventing partially overlapping appointment."""
+        patient_id,doctor_id=self.get_test_data()
         start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
@@ -386,8 +393,8 @@ class TestAppointmentAPI:
         client.post(
             "/appointments",
             json={
-                "patient_id": self.patient_id,
-                "doctor_id": self.doctor_id,
+                "patient_id": patient_id,
+                "doctor_id": doctor_id,
                 "appointment_start": start_time.isoformat(),
                 "appointment_end": end_time.isoformat()
             }
@@ -400,8 +407,8 @@ class TestAppointmentAPI:
         response = client.post(
             "/appointments",
             json={
-                "patient_id": self.patient_id,
-                "doctor_id": self.doctor_id,
+                "patient_id": patient_id,
+                "doctor_id": doctor_id,
                 "appointment_start": overlap_start.isoformat(),
                 "appointment_end": overlap_end.isoformat()
             }
@@ -412,6 +419,7 @@ class TestAppointmentAPI:
 
     def test_adjacent_appointment_allowed(self):
         """Test that adjacent appointments are allowed."""
+        patient_id,doctor_id = self.get_test_data()
         start_time = datetime.now(timezone.utc) + timedelta(days=1)
         end_time = start_time + timedelta(hours=1)
 
@@ -419,8 +427,8 @@ class TestAppointmentAPI:
         client.post(
             "/appointments",
             json={
-                "patient_id": self.patient_id,
-                "doctor_id": self.doctor_id,
+                "patient_id": patient_id,
+                "doctor_id": doctor_id,
                 "appointment_start": start_time.isoformat(),
                 "appointment_end": end_time.isoformat()
             }
@@ -433,8 +441,8 @@ class TestAppointmentAPI:
         response = client.post(
             "/appointments",
             json={
-                "patient_id": self.patient_id,
-                "doctor_id": self.doctor_id,
+                "patient_id": patient_id,
+                "doctor_id": doctor_id,
                 "appointment_start": adjacent_start.isoformat(),
                 "appointment_end": adjacent_end.isoformat()
             }
@@ -444,6 +452,7 @@ class TestAppointmentAPI:
 
     def test_overlapping_appointment_different_doctor_allowed(self):
         """Test that overlapping appointments with different doctors are allowed."""
+        patient_id, doctor_id = self.get_test_data()
         # Create another doctor
         doctor_response = client.post(
             "/doctors",
@@ -461,8 +470,8 @@ class TestAppointmentAPI:
         client.post(
             "/appointments",
             json={
-                "patient_id": self.patient_id,
-                "doctor_id": self.doctor_id,
+                "patient_id": patient_id,
+                "doctor_id": doctor_id,
                 "appointment_start": start_time.isoformat(),
                 "appointment_end": end_time.isoformat()
             }
@@ -472,7 +481,7 @@ class TestAppointmentAPI:
         response = client.post(
             "/appointments",
             json={
-                "patient_id": self.patient_id,
+                "patient_id": patient_id,
                 "doctor_id": doctor_id_2,
                 "appointment_start": start_time.isoformat(),
                 "appointment_end": end_time.isoformat()

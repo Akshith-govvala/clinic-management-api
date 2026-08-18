@@ -16,7 +16,5 @@ class Doctor(Base):
     specialization = Column(String, nullable=False)
 
     appointments = relationship(
-        "Appointment",
-        back_populates="doctor",
-        cascade="all, delete-orphan"
+        "Appointment", back_populates="doctor", cascade="all, delete-orphan"
     )

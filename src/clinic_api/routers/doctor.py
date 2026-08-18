@@ -18,7 +18,7 @@ router = APIRouter(prefix="/doctors", tags=["Doctors"])
 def read_doctors(db: Session = Depends(get_db)):
     """
     Retrieve all doctors.
-    
+
     Returns:
         List of all doctors in the database.
     """
@@ -36,10 +36,10 @@ def add_doctor(
 ):
     """
     Create a new doctor.
-    
+
     Args:
         doctor: Doctor data for creation
-        
+
     Returns:
         The created doctor with assigned ID
     """
@@ -53,13 +53,13 @@ def read_doctor(
 ):
     """
     Retrieve a doctor by ID.
-    
+
     Args:
         doctor_id: ID of the doctor to retrieve
-        
+
     Returns:
         Doctor data if found
-        
+
     Raises:
         HTTPException: If doctor not found (404)
     """

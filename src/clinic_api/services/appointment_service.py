@@ -15,17 +15,13 @@ def get_appointments(db: Session):
 
 def get_appointment(db: Session, appointment_id: int):
     """Retrieve a specific appointment by ID."""
-    return (
-        db.query(Appointment)
-        .filter(Appointment.id == appointment_id)
-        .first()
-    )
+    return db.query(Appointment).filter(Appointment.id == appointment_id).first()
 
 
 def create_appointment(db: Session, appointment_data):
     """
     Create a new appointment with validation.
-    
+
     Validates:
     - Patient exists
     - Doctor exists
@@ -41,9 +37,7 @@ def create_appointment(db: Session, appointment_data):
 
     # Check patient exists
     patient = (
-        db.query(Patient)
-        .filter(Patient.id == appointment_data.patient_id)
-        .first()
+        db.query(Patient).filter(Patient.id == appointment_data.patient_id).first()
     )
 
     if not patient:
@@ -53,11 +47,7 @@ def create_appointment(db: Session, appointment_data):
         )
 
     # Check doctor exists
-    doctor = (
-        db.query(Doctor)
-        .filter(Doctor.id == appointment_data.doctor_id)
-        .first()
-    )
+    doctor = db.query(Doctor).filter(Doctor.id == appointment_data.doctor_id).first()
 
     if not doctor:
         raise HTTPException(

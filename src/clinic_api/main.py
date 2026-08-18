@@ -23,8 +23,4 @@ app.include_router(appointment_router)
 @app.get("/")
 def read_root():
     """Root endpoint for API health check."""
-    return {
-        "message": "Clinic Management API",
-        "version": "0.1.0",
-        "status": "running"
-    }
+    return {"message": "Clinic Management API", "version": "0.1.0", "status": "running"}

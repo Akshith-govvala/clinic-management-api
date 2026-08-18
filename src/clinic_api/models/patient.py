@@ -17,7 +17,5 @@ class Patient(Base):
     phone = Column(String, nullable=False)
 
     appointments = relationship(
-        "Appointment",
-        back_populates="patient",
-        cascade="all, delete-orphan"
+        "Appointment", back_populates="patient", cascade="all, delete-orphan"
     )

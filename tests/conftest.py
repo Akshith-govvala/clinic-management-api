@@ -69,8 +69,8 @@ def test_patient():
         json={
             "name": "Test Patient",
             "email": "test@example.com",
-            "phone": "1234567890"
-        }
+            "phone": "1234567890",
+        },
     )
     return response.json()["id"]
 
@@ -79,10 +79,6 @@ def test_patient():
 def test_doctor():
     """Fixture that creates a test doctor and returns its ID."""
     response = client.post(
-        "/doctors",
-        json={
-            "name": "Dr. Test",
-            "specialization": "General Practice"
-        }
+        "/doctors", json={"name": "Dr. Test", "specialization": "General Practice"}
     )
     return response.json()["id"]

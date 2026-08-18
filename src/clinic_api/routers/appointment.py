@@ -24,7 +24,7 @@ router = APIRouter(
 def read_appointments(db: Session = Depends(get_db)):
     """
     Retrieve all appointments.
-    
+
     Returns:
         List of all appointments in the database.
     """
@@ -42,19 +42,19 @@ def add_appointment(
 ):
     """
     Create a new appointment.
-    
+
     Validates that:
     - Patient exists
     - Doctor exists
     - Appointment end time is after start time
     - No overlapping appointments for the doctor
-    
+
     Args:
         appointment: Appointment data for creation
-        
+
     Returns:
         The created appointment with assigned ID
-        
+
     Raises:
         HTTPException: If validation fails
     """
@@ -71,13 +71,13 @@ def read_appointment(
 ):
     """
     Retrieve an appointment by ID.
-    
+
     Args:
         appointment_id: ID of the appointment to retrieve
-        
+
     Returns:
         Appointment data if found
-        
+
     Raises:
         HTTPException: If appointment not found (404)
     """
