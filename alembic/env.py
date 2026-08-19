@@ -1,4 +1,10 @@
 """Alembic environment configuration."""
+import os
+import sys
+sys.path.insert(
+0,
+os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
+)
 
 from logging.config import fileConfig
 
@@ -6,6 +12,9 @@ from sqlalchemy import engine_from_config, pool
 
 from alembic import context
 from clinic_api.database import Base
+from clinic_api.models.patient import Patient
+from clinic_api.models.doctor import Doctor
+from clinic_api.models.appointment import Appointment
 
 # this is the Alembic Config object
 config = context.config
@@ -34,7 +43,6 @@ def run_migrations_offline() -> None:
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
     configuration = config.get_section(config.config_ini_section)
-    configuration["sqlalchemy.url"] = "sqlite:///./clinic.db"
 
     connectable = engine_from_config(
         configuration,

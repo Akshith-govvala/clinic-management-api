@@ -31,11 +31,11 @@ dev-dependencies = [
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-packages = ["clinic_api"]
-
 [tool.setuptools.package-dir]
 "" = "src"
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["clinic_api*"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
